@@ -556,7 +556,125 @@ model.fit(x_train, y_train)
 predictions = model.predict(x_test)
 score = accuracy_score(y_test, predictions)
 score
+
+
+
+
+
 #MLops
+import pandas as pd
+from sklearn.tree import DecisionTreeClassifier
+
+# Load the data
+music_data = pd.read_csv('music.csv')
+
+# Split the data into input (X) and output (y)
+X = music_data.drop(columns=['genre'])
+y = music_data['genre']
+
+# Create and train the model
+model = DecisionTreeClassifier()
+model.fit(X, y)
+
+# Make a prediction
+predictions = model.predict([[21, 1]])
+print(predictions)
+
+
+
+
+#MLops
+import pandas as pd
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.externals import joblib
+
+# Training code (commented out because the model is already saved)
+# music_data = pd.read_csv('music.csv')
+# X = music_data.drop(columns=['genre'])
+# y = music_data['genre']
+
+# model = DecisionTreeClassifier()
+# model.fit(X, y)
+
+# Save the trained model (run this once if you haven’t saved it yet)
+# joblib.dump(model, 'music-recommender.joblib')
+
+# Load the trained model
+model = joblib.load('music-recommender.joblib')
+
+# Make a prediction
+predictions = model.predict([[21, 1]])
+print(predictions)
+
+
+
+
+
+
+
+
+
+
+#MLops
+import pandas as pd
+from sklearn.tree import DecisionTreeClassifier
+from sklearn import tree
+
+# Load the data
+music_data = pd.read_csv('music.csv')
+X = music_data.drop(columns=['genre'])
+y = music_data['genre']
+
+# Train the model
+model = DecisionTreeClassifier()
+model.fit(X, y)
+
+# Export the decision tree visualization
+tree.export_graphviz(
+    model,
+    out_file='music-recommender.dot',
+    feature_names=['age', 'gender'],
+    class_names=sorted(y.unique()),
+    label='all',
+    rounded=True,
+    filled=True
+)
+
+
+
+import pandas as pd
+from sklearn.tree import DecisionTreeClassifier
+from sklearn import tree
+
+# --- Load the dataset ---
+music_data = pd.read_csv('music.csv')
+X = music_data.drop(columns=['genre'])
+y = music_data['genre']
+
+# --- Train the model ---
+model = DecisionTreeClassifier()
+model.fit(X, y)
+
+# --- Export the Decision Tree to a DOT file ---
+tree.export_graphviz(
+    model,
+    out_file='music-recommender.dot',
+    feature_names=['age', 'gender'],
+    class_names=sorted(y.unique()),
+    label='all',
+    rounded=True,
+    filled=True
+)
+
+print("✅ Decision tree exported to 'music-recommender.dot'")
+
+# --- Optional: Convert the .dot file to a PNG image (needs Graphviz installed) ---
+# You can uncomment and run this part if you have Graphviz installed.
+
+# import graphviz
+# with open("music-recommender.dot") as f:
+#     dot_graph = f.read()
+# display(graphviz.Source(dot_graph))
 
 #MLops
 
@@ -568,6 +686,107 @@ score
 
 #MLops
 
-#MLops
 
-#MLops
+
+#קוד מלא!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+
+
+# ✨ פרויקט Python מלא - הדגמה של כל הנושאים שתרגלת ✨
+
+import random  # מייבא את מודול random שמאפשר יצירת מספרים אקראיים
+
+print("=== הדגמת random ===")  # מדפיס כותרת על המסך
+
+for i in range(3):  # רץ 3 פעמים
+    print(random.randint(10, 20))  # מדפיס כל פעם מספר רנדומלי בין 10 ל־20
+
+class Dices:  # מגדיר מחלקה בשם Dices
+    def Dice(self):  # מתודה שמחזירה תוצאה של שתי זריקות קובייה
+        a = random.randint(1, 6)  # קובייה ראשונה
+        b = random.randint(1, 6)  # קובייה שנייה
+        return a, b  # מחזיר זוג תוצאות
+
+dice = Dices()  # יוצר מופע של המחלקה
+print("תוצאת זריקת הקוביות:", dice.Dice())  # מציג תוצאות הקוביות
+
+from pathlib import Path  # מייבא את המחלקה Path לעבודה עם קבצים
+
+print("\n=== הדגמת pathlib ===")  # כותרת למסך
+path = Path('.')  # מצביע לתיקייה הנוכחית
+for file in path.glob('*.py'):  # עובר על כל קבצי ה־.py בתיקייה
+    print("נמצא קובץ:", file)  # מדפיס כל שם קובץ שנמצא
+
+import csv  # ספרייה לעבודה עם קבצי CSV
+
+print("\n=== תהליך ETL לקובץ CSV ===")  # כותרת למסך
+input_file = 'customers.csv'  # שם קובץ המקור
+output_file = 'filtered.csv'  # שם קובץ הפלט
+rows = []  # רשימה ריקה לשמירת שורות
+with open(input_file, 'r', newline='', encoding='utf-8') as f:  # פותח את הקובץ לקריאה
+    reader = csv.DictReader(f)  # קורא כל שורה כמילון (dict)
+    for row in reader:  # עובר על כל השורות
+        rows.append(row)  # מוסיף לרשימה
+
+filtered_rows = [r for r in rows if float(r['price']) > 50]  # מסנן רק מחירים מעל 50
+
+with open(output_file, 'w', newline='', encoding='utf-8') as f:  # פותח קובץ חדש לכתיבה
+    writer = csv.DictWriter(f, fieldnames=['name', 'price'])  # יוצר כותב עם כותרות
+    writer.writeheader()  # כותב כותרת
+    writer.writerows(filtered_rows)  # כותב את כל השורות המסוננות
+
+print("נשמר קובץ מסונן בשם:", output_file)  # מודיע שסיים לשמור
+
+import openpyxl as xl  # ספרייה לעבודה עם קבצי Excel
+from openpyxl.chart import BarChart, Reference  # מייבא כלים ליצירת גרף
+
+print("\n=== עבודה עם Excel ===")  # כותרת למסך
+wb = xl.load_workbook('transaction.xlsx')  # טוען קובץ Excel
+sheet = wb.active  # בוחר את הגיליון הפעיל
+
+for row in range(2, sheet.max_row + 1):  # עובר על שורות (מדלג על כותרת)
+    cell = sheet.cell(row, 3)  # קורא ערך מעמודה C (עמודה 3)
+    corrected_price = cell.value * 0.9  # מחשב מחיר אחרי הנחה של 10%
+    sheet.cell(row, 4).value = corrected_price  # כותב לעמודה D את המחיר החדש
+
+values = Reference(sheet, min_row=2, max_row=sheet.max_row, min_col=4, max_col=4)  # בוחר טווח נתונים לגרף
+chart = BarChart()  # יוצר גרף עמודות
+chart.add_data(values)  # מזין לגרף את הנתונים
+sheet.add_chart(chart, 'E2')  # ממקם את הגרף בתא E2
+wb.save('transaction_updated.xlsx')  # שומר את הקובץ החדש
+print("נוצר קובץ Excel חדש עם גרף: transaction_updated.xlsx")  # מדפיס הודעת הצלחה
+
+import pandas as pd  # ספרייה לעיבוד נתונים
+from sklearn.tree import DecisionTreeClassifier  # מודל עץ החלטה
+from sklearn.model_selection import train_test_split  # לפיצול ל־Train/Test
+from sklearn.metrics import accuracy_score  # למדידת דיוק
+
+print("\n=== מודל ML בסיסי (Decision Tree) ===")  # כותרת למסך
+music_data = pd.read_csv('music.csv')  # טוען קובץ CSV
+X = music_data.drop(columns=['genre'])  # עמודות הקלט
+y = music_data['genre']  # עמודת המטרה
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)  # מחלק ל־80/20
+
+model = DecisionTreeClassifier()  # יוצר את המודל
+model.fit(X_train, y_train)  # מאמן את המודל
+predictions = model.predict(X_test)  # חוזה על הנתונים לבדיקה
+score = accuracy_score(y_test, predictions)  # מחשב דיוק
+print("דיוק המודל:", round(score * 100, 2), "%")  # מדפיס את הדיוק
+example = [[21, 1]]  # דוגמה: גיל 21, מין זכר
+print("חיזוי לדוגמה:", model.predict(example))  # מדפיס את התחזית
+
+from sklearn import tree  # ספרייה לייצוא גרפי של המודל
+tree.export_graphviz(  # מייצא את עץ ההחלטה לקובץ .dot
+    model,
+    out_file='music-recommender.dot',  # שם קובץ היצוא
+    feature_names=['age', 'gender'],  # שמות המשתנים
+    class_names=sorted(y.unique()),  # רשימת המחלקות
+    label='all',  # כולל תוויות מלאות
+    rounded=True,  # פינות מעוגלות
+    filled=True  # צבעים לפי מחלקה
+)
+print("נוצר קובץ גרף של עץ ההחלטה: music-recommender.dot")  # מודיע שהגרף נוצר
+print("\n✅ הסתיים בהצלחה! כל השלבים הושלמו.")  # הודעת סיום כוללת
+                      # הודעת סיום ידידותית
